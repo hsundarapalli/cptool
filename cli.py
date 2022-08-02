@@ -58,6 +58,7 @@ config3_parser.add_argument("--autdet3",
                     choices = ["true", "false"], 
                     default = display_author, 
                     help = "enable or disable author details")
+
 print(config_parser.parse_args())
 cppversion         = config_parser.parse_args().cppversion
 debug              = config_parser.parse_args().debug
@@ -70,15 +71,7 @@ with open("config.json", "w") as jsonFile:
     json.dump(conf, jsonFile)
 
 
-class FooAction(argparse.Action):
-    def __init__(self, option_strings, dest, nargs=None, **kwargs):
-        if nargs is not None:
-            raise ValueError("nargs not allowed")
-        super().__init__(option_strings, dest, **kwargs)
-    def __call__(self, parser, namespace, values, option_string=None):
-        print('%r %r %r' % (namespace, values, option_string))
-        print("problem is :", namespace.prob)
-        setattr(namespace, self.dest, values)
+
 # custom action
 
 # add actions for these arguments
@@ -87,4 +80,3 @@ root_parser.add_argument("--b")
 root_parser.add_argument("c",action = FooAction)
 
 root_parser.add_argument("--d")
-print(root_parser.parse_args()) 
