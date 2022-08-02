@@ -25,8 +25,8 @@ with open(temp_file, "w") as f:
 		parser = html_parser(problem_letter);
 		parser.feed(text.decode('utf-8'))
 		assert len(parser.sample_inputs) == len(parser.sample_outputs)
-		f.write('"' + problem_letter +'"'+ ": " + str(parser.no_of_sample_tests) + ",\n")
+		f.write('"' + problem_letter +'"'+ ": " + '"' + str(parser.no_of_sample_tests) + '"'+ ",\n")
 		parser.generate_test_files()
 		problem_letter = chr(ord(problem_letter)+1)
-	f.write("\n}")
+	f.write('"hari"' + ":" + '"1"' + "\n}")
 

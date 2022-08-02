@@ -10,7 +10,13 @@ configs            = conf["cli_config"]
 display_author     = configs["display_author"]
 debug              = configs["debug"]
 author_name        = configs["author_name"]
-    
+contest_details    = conf["contest_details"]
+contest_number     = contest_details["contest_number"]
+
+#------------tempconfig-----------------
+temp_config_file   = "temp.json"
+temp_config        = json.load(open(temp_config_file))
+
 def add_author(file):
     curr_time = time.strftime("%H:%M:%S", time.localtime())
     today     = date.today() 
@@ -48,12 +54,42 @@ def open_file():
         add_bitsstream(file)
         add_debugger(file)
         add_main(file)
-    os.system("subl "+file_name) 
+    os.system("subl "+file_name)
+
+def run_tests(tests_num, problem_letter):
+    for test_count in range(tests_num):
+        output_file_name      = problem_letter + 'out.txt'
+        input_file_name  = "in" + problem_letter + str(test_count + 1) + ".txt"
+        os.system("./a.out < " + input_file_name + " > " + output_file_name) 
+        exp_output_file_name  = "out" + problem_letter + str(test_count + 1) + ".txt"
+        output_file = open(output_file_name, 'r')
+        o = output_file.read()
+        exp_output_file = open(exp_output_file_name, 'r')
+        e = exp_output_file.read()
+        o = o.replace("\n", " ").split()
+        e = e.replace("\n", " ").split()
+        if(o == e) :
+            print("test " + str(test_count + 1) +" case passed")
+        else :
+            print("test " + str(test_count + 1) +" case failed")
+
+def test():
+    problem_letter = input("enter the problem letter: ")
+    file_name      = problem_letter + '.cpp'
+    tests_num      = int(temp_config[problem_letter])
+    # compile the source code
+    os.system("g++ " + file_name)
+    run_tests(tests_num, problem_letter)
+
+def fetch():
+    os.system("python3 fetch.py")
+
+def set_contest_num():  
+    contest_number = input("enter the problem letter: ")  
 
 def make_action(fun, *args, **kwargs):
     class customAction(argparse.Action):
         def __call__(self, parser, args, values, option_string=None):
-            print(args)
             fun()
             setattr(args, self.dest, values)
     return customAction

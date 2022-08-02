@@ -21,10 +21,12 @@ root_parser = argparse.ArgumentParser(
 root_parser.add_argument("--version",
                     action = "version", 
                     version = "%(prog)s 2.1.171.3")
-root_parser.add_argument("--open",nargs=0,
+root_parser.add_argument("--open", 
+                    nargs = 0,
                     action = make_action(open_file))
 root_parser.add_argument("--test",
-                    ) #problem_letter + '.cpp'
+                    nargs = 0,
+                    action = make_action(test)) #problem_letter + '.cpp'
 
 # ------------modes supported-------------------------------
 mode = root_parser.add_subparsers(
@@ -61,16 +63,15 @@ config_parser.add_argument("--autdet",
                     default = display_author, 
                     help = "enable or disable author details")
 
-contest_parser.add_argument("contest_number", 
-					type = int,
-					nargs = 1, 
-                    help = "enter the contest number")
-contest_parser.add_argument("fetch", 
-                    )#action = FooAction
+contest_parser.add_argument("--cntst_num", 
+					nargs = 0,
+                    action = make_action(set_contest_num))
+contest_parser.add_argument("--fetch", 
+                    nargs = 0,
+                    action = make_action(fetch))#action = FooAction
 
 
-
-overloads = config_parser.parse_args()
+overloads          = config_parser.parse_args()
 cppversion         = overloads.cppversion
 debug              = overloads.debug
 display_author     = overloads.autdet
@@ -79,6 +80,8 @@ configs["cppversion"]     = cppversion
 configs["debug"]          = debug              
 configs["display_author"] = display_author
 configs["author_name"]    = author_name
+configs["contest_number"] = contest_number
+
 with open("config.json", "w") as jsonFile:
     json.dump(conf, jsonFile)
 
