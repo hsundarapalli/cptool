@@ -19,7 +19,7 @@ class html_parser(HTMLParser):
 	def handle_endtag(self, tag):
 		if tag == "pre":
 			self.got_a_test_case      = False
-
+			
 			if self.turn == 1:
 				self.sample_outputs.append(self.test_buffer)
 			elif self.turn == 0:

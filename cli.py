@@ -18,13 +18,14 @@ root_parser = argparse.ArgumentParser(
 root_parser.add_argument("--version",
                     action = "version", 
                     version = "%(prog)s 2.1.171.3")
-
+root_parser.add_argument("posa", nargs = "?")
+root_parser.add_argument("posb", nargs = "?")
 sub_com = root_parser.add_subparsers(
                     title = "configurations")
 
 config_parser = sub_com.add_parser("config",
                     parents = [root_parser], 
-                    description = 'config_parser', 
+                    description = 'config_parserdfkS', 
                     add_help = False)
 
 config_parser.add_argument("--cppversion", 
@@ -40,14 +41,50 @@ config_parser.add_argument("--autdet",
                     default = display_author, 
                     help = "enable or disable author details")
 
+config2_parser = sub_com.add_parser("config2",
+                    parents = [root_parser], 
+                    description = 'config_parserdlfld', 
+                    add_help = False)
+
+config3_parser = sub_com.add_parser("config3",
+                    parents = [root_parser], 
+                    description = 'config_parserdlfadfasfd', 
+                    add_help = False)
+config2_parser.add_argument("--hari", 
+                    choices = ["true", "false"], 
+                    default = display_author, 
+                    help = "enable or nothig author details")
+config3_parser.add_argument("--autdet3", 
+                    choices = ["true", "false"], 
+                    default = display_author, 
+                    help = "enable or disable author details")
+print(config_parser.parse_args())
 cppversion         = config_parser.parse_args().cppversion
 debug              = config_parser.parse_args().debug
 display_author     = config_parser.parse_args().autdet
-
-print(debug)
 configs["cppversion"]     = cppversion
 configs["debug"]          = debug              
 configs["display_author"] = display_author
-
+print('parser.prog: {}'.format(root_parser.prog))
 with open("config.json", "w") as jsonFile:
     json.dump(conf, jsonFile)
+
+
+class FooAction(argparse.Action):
+    def __init__(self, option_strings, dest, nargs=None, **kwargs):
+        if nargs is not None:
+            raise ValueError("nargs not allowed")
+        super().__init__(option_strings, dest, **kwargs)
+    def __call__(self, parser, namespace, values, option_string=None):
+        print('%r %r %r' % (namespace, values, option_string))
+        print("problem is :", namespace.prob)
+        setattr(namespace, self.dest, values)
+# custom action
+
+# add actions for these arguments
+root_parser.add_argument("prob", type = str, nargs = 1)
+root_parser.add_argument("--b")
+root_parser.add_argument("c",action = FooAction)
+
+root_parser.add_argument("--d")
+print(root_parser.parse_args()) 
