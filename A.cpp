@@ -1,6 +1,6 @@
 /**
- *    author:  hari
- *    created: 03.08.2022 07:51:13
+ *    author:  newuser
+ *    created: 03.08.2022 17:01:13
 **/
 #include <bits/stdc++.h>
 using namespace std;
@@ -8,31 +8,13 @@ using namespace std;
 int main(){
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
-  long long l,r,ans=0;
-cin>>l>>r;
-for(int i=0;l<=r;++i)
-{
-  long long n=0,j=i,k=1;
-  while(j>=0)
-  {
-    if(j&1)
-    {
-      n+=k*7;
-    }
-    else
-    {
-      n+=k*4;
-    }
-    k*=10;
-    j=j/2-1;
-  }
-  if(n>=l)
-  {
-    ans+=1LL*(min(r,n)-l+1)*n;
-    l=min(r,n)+1;
-  }
-}
-cout<<ans<<endl;
-return 0;
-
+  int n;
+  cin >> n;
+  string s[n];
+  for (int i = 0; i < n; i++)
+    cin >> s[i];
+  for(int i = 1; i <= s[0].size(); i++)
+    for (int j = 0; j < n; j++)
+      if (s[j].substr(0, i) != s[0].substr(0, i))
+        return cout << i - 1 << endl, 0;
 }

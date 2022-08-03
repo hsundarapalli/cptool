@@ -13,8 +13,8 @@ author_name        = configs["author_name"]
 contest_details    = conf["contest_details"]
 contest_number     = contest_details["contest_number"]
 #------------tempconfig-----------------
-temp_config_file   = "temp.json"
-temp_config        = json.load(open(temp_config_file))
+test_num_file   = "test_num.json"
+test_num        = json.load(open(test_num_file))
 
 def prRed(skk): print("\033[1m\033[91m{}\033[00m" .format(skk))
  
@@ -111,7 +111,7 @@ def run_tests(tests_num, problem_letter):
 def test():
     problem_letter = input("enter the problem letter: ")
     file_name      = problem_letter + '.cpp'
-    tests_num      = int(temp_config[problem_letter])
+    tests_num      = int(test_num[problem_letter])
     # compile the source code
     os.system("g++ " + file_name)
     run_tests(tests_num, problem_letter)

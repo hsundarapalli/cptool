@@ -11,56 +11,99 @@ configs            = conf["contest_details"]
 online_judge       = configs["online_judge"]
 contest_number     = configs["contest_number"][0]
 
-temp_file          = "temp.json"
+test_num          = "test_num.json"
 
-problem_letter = 'A'
-while True:
-	url = 'http://codeforces.com/contest/' + contest_number + '/problem/' + problem_letter
+##
+# problem_letter = 'A'
+
+# while True:
+# 	url = 'http://codeforces.com/contest/' + contest_number + '/problem/' + problem_letter
+# 	problem = urlopen(url)
+# 	if problem.geturl() != url:
+# 		break
+# 	print("Fetching problem", problem_letter)
+# 	text = problem.read()
+# 	#print(text.decode('utf-8'))
+# 	parser = problem_parser()
+# 	parser.feed(text.decode('utf-8'))
+# 	if len(parser.input) != len(parser.output):
+# 		print("Error with problem", problem_letter)
+# 	else:
+# 		test_count = 0
+# 		for test_case in parser.input:
+# 			inp = open("in" + problem_letter + str(test_count + 1) + ".txt", 'w')
+# 			inp.write(test_case)
+# 			inp.close()
+# 			test_count += 1
+# 		test_count = 0
+# 		for test_case in parser.output:
+# 			out = open("out" + problem_letter + str(test_count + 1) + ".txt", 'w')
+# 			out.write(test_case)
+# 			out.close()
+# 			test_count += 1
+# 		print("Fetch successful")
+# 		problem_letter = chr(ord(problem_letter[0])+1)
+
+test_num_dict = {}
+
+def check(prob_let):
+
+	url     = 'http://codeforces.com/contest/' + contest_number + '/problem/' + prob_let
 	problem = urlopen(url)
+
 	if problem.geturl() != url:
-		break
-	print(problem.geturl())
-	print("Fetching problem", problem_letter)
-	text = problem.read()
-	#print(text.decode('utf-8'))
-	parser = problem_parser()
+		return False
+
+	print("Fetching problem ", prob_let)
+	text    = problem.read()
+	parser  = problem_parser()
 	parser.feed(text.decode('utf-8'))
-	print(parser.input)
-	print(parser.output)
+
 	if len(parser.input) != len(parser.output):
 		print("Error with problem", problem_letter)
 	else:
 		test_count = 0
 		for test_case in parser.input:
-			inp = open("in" + problem_letter + str(test_count + 1) + ".txt", 'w')
+			inp = open("in" + prob_let + str(test_count + 1) + ".txt", 'w')
 			inp.write(test_case)
 			inp.close()
 			test_count += 1
+
 		test_count = 0
 		for test_case in parser.output:
-			out = open("out" + problem_letter + str(test_count + 1) + ".txt", 'w')
+			out = open("out" + prob_let + str(test_count + 1) + ".txt", 'w')
 			out.write(test_case)
 			out.close()
 			test_count += 1
-		print("Fetch successful")
+
+		test_num_dict[prob_let] = str(test_count)
+	return True
+
+
+
+def ok(prob_let):
+	found = check(prob_let)
+	if found:
+		return True
+	else:
+		sub_count = 1
+		#check for the subproblems
+		while check(prob_let + str(sub_count)):
+			sub_count +=1
+			found = True
+
+	return found
+
+problem_letter = 'A'
+
+while True:
+
+	if ok(problem_letter):
 		problem_letter = chr(ord(problem_letter)+1)
-
-
-# with open(temp_file, "w") as f:
-# 	f.write("{\n")
-# 	problem_letter = 'A'
-# 	while True :
-# 		print("fetch", problem_letter)
-# 		url = 'http://codeforces.com/contest/' + contest_number + '/problem/' + problem_letter
-# 		problem = urlopen(url)
-# 		if problem.geturl() != url:
-# 			break
-# 		text = problem.read()
-# 		parser = html_parser(problem_letter);
-# 		parser.feed(text.decode('utf-8'))
-# 		assert len(parser.sample_inputs) == len(parser.sample_outputs)
-# 		f.write('"' + problem_letter +'"'+ ": " + '"' + str(parser.no_of_sample_tests) + '"'+ ",\n")
-# 		parser.generate_test_files()
-# 		problem_letter = chr(ord(problem_letter)+1)
-# 	f.write('"hari"' + ":" + '"1"' + "\n}")
-
+	else :
+		print("Fetching Complete")
+		break
+print(test_num_dict)
+with open("test_num.json", "w") as outfile:
+    json.dump(test_num_dict, outfile)
+# write the test case details to the json file 

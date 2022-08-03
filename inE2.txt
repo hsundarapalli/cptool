@@ -1,7 +1,7 @@
-4 5
-4 4 4 4
-count 1 4
-add 1 4 3
-count 1 4
-add 2 3 40
-count 1 4
+<b><aa/></b><aa><b/><b/></aa>
+5
+aa b
+b
+aa
+b aa
+a
