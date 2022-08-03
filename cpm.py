@@ -13,13 +13,18 @@ root_parser = argparse.ArgumentParser(
 root_parser.add_argument("--version",
                     action = "version", 
                     version = "%(prog)s 2.1.171.3")
-root_parser.add_argument("--open", 
+root_parser.add_argument('--open', 
                     nargs = 1,
                     action = make_action(open_file))
 root_parser.add_argument("--test",
                     nargs = 1,
-                    action = make_action(test)) #problem_letter + '.cpp'
-
+                    action = make_action(test)) 
+root_parser.add_argument("--username", 
+                    nargs = 0,
+                    action = make_action(get_username))
+root_parser.add_argument("--cppversion",
+                    nargs = 0,
+                    action = make_action(get_cppversion)) 
 # adding sub_parsers 
 sub_parsers = root_parser.add_subparsers(
                     help = "mode of operation")
@@ -34,19 +39,23 @@ contest_parser = sub_parsers.add_parser("contest",
 #add elements to subparsers
 
 config_parser.add_argument("--username", 
-                    default = author_name, 
-                    help = "Tell me your name !!")
-config_parser.add_argument("--cppversion", 
-                    choices = ["c++20", "c++14", "c++17", "c++11"], 
-                    default = cppversion, 
-                    help = "select the version of the c++ compiler")
-config_parser.add_argument("--debug", 
-                    choices = ["true", "false"], 
-                    default = debug, 
+                    nargs  =1,
+                    action = make_action(update_username), 
                     help = "enable or disable debug mode")
-config_parser.add_argument("--autdet", 
+config_parser.add_argument("--cppversion", 
+                    nargs = 1,
+                    choices = ["c++20", "c++14", "c++17", "c++11"], 
+                    action = make_action(update_cppversion),
+                    help = "choose the version of the cpp compiler")
+config_parser.add_argument("--debug", 
+                    nargs = 1,
                     choices = ["true", "false"], 
-                    default = display_author, 
+                    action = make_action(update_debug), 
+                    help = "enable or disable debug mode")
+config_parser.add_argument("--autdet",
+                    nargs =1, 
+                    choices = ["true", "false"], 
+                    action = make_action(update_author_config),
                     help = "enable or disable author details")
 
 #----------------------------------------------------------
@@ -57,24 +66,5 @@ contest_parser.add_argument("--fetch",
                     action = make_action(fetch))
 
 #--------------------------------------------------------
-overloads          = root_parser.parse_args()
-# cppversion         = overloads.cppversion
-# debug              = overloads.debug
-# display_author     = overloads.autdet
-# author_name        = overloads.username
-# contest_number     = overloads.cntst_num
-# configs["cppversion"]     = cppversion
-# configs["debug"]          = debug              
-# configs["display_author"] = display_author
-# configs["author_name"]    = author_name
-# conf["contest_details"]["contest_number"]   = contest_number
-# # conf["contest_details"]["contest_number"] = contest_number1
-# # reset_contest_num()
-
-# with open("config.json", "w") as jsonFile:
-#     json.dump(conf, jsonFile)
-
-
-
-# add arguments to the modes
+root_parser.parse_args()
 

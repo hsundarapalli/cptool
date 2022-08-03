@@ -63,8 +63,23 @@ def fetch(values):
     update_contest_details("contest_number", values[0])
     os.system("python3 fetch.py")
 
-    
+def get_username(values):
+    print(author_name)
 
+def get_cppversion(values):
+    print(cppversion)
+def update_username(values):
+    print(values)
+    update_cpm_conf("author_name", values[0])
+def update_cppversion(values):
+    update_cpm_conf("cppversion", values[0])
+def debug(values):
+    update_cpm_conf("debug", values[0])
+
+def update_author_config(values):
+    update_cpm_conf("display_author", values[0])
+def update_debug(values):
+    update_cpm_conf("debug", values[0])
 def make_action(fun, *args, **kwargs):
     class customAction(argparse.Action):
         def __call__(self, parser, args, values, option_string=None):

@@ -22,7 +22,7 @@ contest_number     = contest_details["contest_number"]
 
 def update_json():
     with open(config_file, "w") as outfile:
-        json.dump(conf, outfile)
+        json.dump(conf, outfile)    
 
 def update_cpm_conf(key, val):
     conf["cpm_conf"][key] = val
