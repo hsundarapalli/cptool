@@ -24,14 +24,14 @@ def check(prob_let):
 	else:
 		test_count = 0
 		for test_case in parser.input:
-			inp = open("in" + prob_let + str(test_count + 1) + ".txt", 'w')
+			inp = open("./temp/in" + prob_let + str(test_count + 1) + ".txt", 'w')
 			inp.write(test_case)
 			inp.close()
 			test_count += 1
 
 		test_count = 0
 		for test_case in parser.output:
-			out = open("out" + prob_let + str(test_count + 1) + ".txt", 'w')
+			out = open("./temp/out" + prob_let + str(test_count + 1) + ".txt", 'w')
 			out.write(test_case)
 			out.close()
 			test_count += 1
