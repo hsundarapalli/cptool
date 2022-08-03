@@ -1,17 +1,38 @@
 /**
  *    author:  hari
- *    created: 03.08.2022 02:59:32
+ *    created: 03.08.2022 07:51:13
 **/
 #include <bits/stdc++.h>
 using namespace std;
 
-int main() {
+int main(){
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
-  int n,k; cin>>n>>k;
-  long a[n+1],s=0,dem=0;
-  for (int i=1;i<=n;i++) cin>>a[i], s+=a[i];
-  while (k*n-s>float(n/2)) s+=k, n++, dem++;
-  cout<<dem;
-  cout<<endl;
+  long long l,r,ans=0;
+cin>>l>>r;
+for(int i=0;l<=r;++i)
+{
+  long long n=0,j=i,k=1;
+  while(j>=0)
+  {
+    if(j&1)
+    {
+      n+=k*7;
+    }
+    else
+    {
+      n+=k*4;
+    }
+    k*=10;
+    j=j/2-1;
+  }
+  if(n>=l)
+  {
+    ans+=1LL*(min(r,n)-l+1)*n;
+    l=min(r,n)+1;
+  }
+}
+cout<<ans<<endl;
+return 0;
+
 }

@@ -12,10 +12,32 @@ debug              = configs["debug"]
 author_name        = configs["author_name"]
 contest_details    = conf["contest_details"]
 contest_number     = contest_details["contest_number"]
-
 #------------tempconfig-----------------
 temp_config_file   = "temp.json"
 temp_config        = json.load(open(temp_config_file))
+
+def prRed(skk): print("\033[1m\033[91m{}\033[00m" .format(skk))
+ 
+ 
+def prGreen(skk): print("\033[1m\033[92m{}\033[00m" .format(skk))
+ 
+ 
+def prYellow(skk): print("\033[93m{}\033[00m" .format(skk))
+ 
+ 
+def prLightPurple(skk): print("\033[94m{}\033[00m" .format(skk))
+ 
+ 
+def prPurple(skk): print("\033[1m\033[95m{}\033[00m" .format(skk))
+ 
+ 
+def prCyan(skk): print("\033[96m{}\033[00m" .format(skk))
+ 
+ 
+def prLightGray(skk): print("\033[97m{}\033[00m" .format(skk))
+ 
+ 
+def prBlack(skk): print("\033[98m{}\033[00m" .format(skk))
 
 def add_author(file):
     curr_time = time.strftime("%H:%M:%S", time.localtime())
@@ -41,7 +63,7 @@ def add_debugger(file):
         file.write("#endif\n")
 
 def add_main(file):
-    file.write("int main() {\n")
+    file.write("int main(){\n")
     file.write("\tios_base::sync_with_stdio(false);\n")
     file.write("\tcin.tie(NULL);\n\n")
     file.write("}\n")
@@ -56,12 +78,24 @@ def open_file():
         add_main(file)
     os.system("subl "+file_name)
 
+def cat(x):
+    os.system("cat " + x)
+def inout(x, y, z):
+    prPurple("Input: ")
+    cat(x)
+    prPurple("Expected Output: ")
+    cat(y)
+    prPurple("Your Output: ")
+    cat(z)
+    print()
+
 def run_tests(tests_num, problem_letter):
     for test_count in range(tests_num):
         output_file_name      = problem_letter + 'out.txt'
         input_file_name  = "in" + problem_letter + str(test_count + 1) + ".txt"
         os.system("./a.out < " + input_file_name + " > " + output_file_name) 
         exp_output_file_name  = "out" + problem_letter + str(test_count + 1) + ".txt"
+        inout(input_file_name, exp_output_file_name, output_file_name)
         output_file = open(output_file_name, 'r')
         o = output_file.read()
         exp_output_file = open(exp_output_file_name, 'r')
@@ -69,9 +103,10 @@ def run_tests(tests_num, problem_letter):
         o = o.replace("\n", " ").split()
         e = e.replace("\n", " ").split()
         if(o == e) :
-            print("test " + str(test_count + 1) +" case passed")
+            prGreen("test " + str(test_count + 1) +" case passed")
         else :
-            print("test " + str(test_count + 1) +" case failed")
+            prRed("test " + str(test_count + 1) +" case failed")
+        print("\n\n")
 
 def test():
     problem_letter = input("enter the problem letter: ")
@@ -85,7 +120,12 @@ def fetch():
     os.system("python3 fetch.py")
 
 def set_contest_num():  
-    contest_number = input("enter the problem letter: ")  
+    contest_number = input("enter the problem letter: ")
+    
+# def reset_contest_num():
+#     conf["contest_details"]["contest_number"] = contest_number1
+#     with open("config.json", "w") as jsonFile:
+#         json.dump(conf, jsonFile)
 
 def make_action(fun, *args, **kwargs):
     class customAction(argparse.Action):
