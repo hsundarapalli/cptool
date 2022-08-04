@@ -18,7 +18,10 @@ root_parser.add_argument('--open',
                     action = make_action(open_file))
 root_parser.add_argument("--test",
                     nargs = 1,
-                    action = make_action(test)) 
+                    action = make_action(test))
+root_parser.add_argument("--run",
+                    nargs = 1,
+                    action = make_action(run))  
 root_parser.add_argument("--username", 
                     nargs = 0,
                     action = make_action(get_username))
@@ -57,7 +60,10 @@ config_parser.add_argument("--autdet",
                     choices = ["true", "false"], 
                     action = make_action(update_author_config),
                     help = "enable or disable author details")
-
+config_parser.add_argument("--txteditor",
+                    nargs =1, 
+                    action = make_action(update_text_editor),
+                    help = "update your defualt text editor for cpm")
 #----------------------------------------------------------
 
 

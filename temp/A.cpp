@@ -1,27 +1,38 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
-const int N=2e5+5;
-vector<int>fr[N];
-int t,n,m,mp[N],ans[N];
+typedef long long LL;
+const int N=1e6;
+int a[N];
+#ifdef LOCAL
+#include debug.h
+#else
+#define debug(...) 42
+#define debnl(...) 42
+#endif
 int main(){
-	for(scanf("%d",&t);t--;){
-		fill(mp+1,mp+n+1,0);
-		scanf("%d%d",&n,&m);
-		for(int i=1,x;i<=m;i++){
-			scanf("%d",&x);
-			fr[i].resize(x);
-			for(int j=0;j<x;j++)
-				scanf("%d",&fr[i][j]);
-			if(x==1)mp[fr[i][0]]++;
-		}int fl=0;
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	int T;
+	cin>>T;
+	while(T--)
+	{
+		int n,k;
+		cin>>n>>k;
 		for(int i=1;i<=n;i++)
-			if(mp[i]>(m+1)/2)fl=1;
-		if(fl){
-			puts("NO");
-			continue;
-		}puts("YES");
-		for(int i=1,x;i<=m;i++)
-			printf("%d ",x=fr[i][fr[i].size()==1||mp[fr[i][0]]<(m+1)/2?0:1]),fr[i].size()!=1&&(mp[x]++);
-		puts("");
+        {
+			cin>>a[i];
+		}
+		sort(a+1,a+1+n);
+		LL sum=0;
+		for(int i=1;i<=n;i+=k)
+		{
+			if(a[i]<0)sum-=a[i];
+		}
+		for(int i=n;i>=1;i-=k)
+		{
+			if(a[i]>0)sum+=a[i];
+		}
+		cout<<2*sum-max(abs(a[1]),abs(a[n]))<<"\n";
 	}
+
 }

@@ -1,5 +1,6 @@
 import argparse
 import os
+import sys
 import json
 from colors import *
 from test_editor_loader import *
@@ -17,7 +18,7 @@ def open_file(values):
         add_bitsstream(file)
         add_debugger(file)
         add_main(file)
-    os.system("subl " + TEMP + file_name)
+    os.system(text_editor + " " + TEMP + file_name)
 
 def cat(x):
     os.system("cat " + x)
@@ -51,13 +52,20 @@ def run_tests(tests_num, problem_letter):
             prRed("test " + str(test_count + 1) +" case failed")
         print("\n\n")
 
-def test(values):
+def run(values, run_all = False):
     problem_letter = values[0]
     file_name      = problem_letter + '.cpp'
     tests_num      = int(test_case_num[problem_letter])
     # compile the source code
-    os.system("g++ " + TEMP + file_name)
-    run_tests(tests_num, problem_letter)
+    comp_status = os.system("g++ -DLOCAL " + TEMP + file_name + " -std="+ cppversion)
+    if(comp_status != 0):
+        prRed("Compilation Failed")
+        sys.exit(0)
+    if(run_all):
+        run_tests(tests_num, problem_letter)
+
+def test(values):
+    run(values, True)
 
 def fetch(values):
     update_contest_details("contest_number", values[0])
@@ -80,6 +88,8 @@ def update_author_config(values):
     update_cpm_conf("display_author", values[0])
 def update_debug(values):
     update_cpm_conf("debug", values[0])
+def update_text_editor(values):
+    update_cpm_conf("text_editor", values[0])
 def make_action(fun, *args, **kwargs):
     class customAction(argparse.Action):
         def __call__(self, parser, args, values, option_string=None):

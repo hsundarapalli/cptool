@@ -1,7 +1,4 @@
 
-4
-abacaba
-abaca
-acaba
-aca
+2
+2 3
 

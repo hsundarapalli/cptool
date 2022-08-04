@@ -1,8 +1,4 @@
 
-5
-hidan
-dan
-hanabi
-bi
-nabi
+3
+2 2 2
 

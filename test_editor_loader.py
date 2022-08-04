@@ -20,7 +20,7 @@ def add_bitsstream(file):
 def add_debugger(file):
     if debug == "true" : 
         file.write("#ifdef LOCAL\n")
-        file.write("#include " + "debug" + ".h\n")
+        file.write("#include " + '"../debug.h"' + "\n")
         file.write("#else\n")
         file.write("#define debug(...) 42\n")
         file.write("#define debnl(...) 42\n")
